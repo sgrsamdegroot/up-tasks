@@ -1566,10 +1566,12 @@
 
   /* ── LOADING OVERLAY ── */
   function showLoading() {
-    document.getElementById('loadingOverlay').style.display = 'flex';
+    const el = document.getElementById('loadingOverlay');
+    if (el) el.style.display = 'flex';
   }
   function hideLoading() {
-    document.getElementById('loadingOverlay').style.display = 'none';
+    const el = document.getElementById('loadingOverlay');
+    if (el) el.style.display = 'none';
   }
 
   /* ── BOOTSTRAP: load all data from Supabase ── */
@@ -1975,7 +1977,10 @@
   }
 
   /* ── INIT ── */
-  loadFromSupabase();
+  document.addEventListener('DOMContentLoaded', () => {
+    renderMemberColorPicker('memberColorPicker', selectedMemberColor);
+    loadFromSupabase();
+  });
 
   /* ── CATEGORY DATA ── */
   const CATEGORY_COLORS = [

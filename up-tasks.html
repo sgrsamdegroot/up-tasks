@@ -1,0 +1,2640 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UP Tasks — UP Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Open+Sans:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --orange: #ff7f00;
+    --orange-light: #fff3e0;
+    --orange-mid: #fbb03b;
+    --orange-dark: #e06c00;
+    --yellow: #fcee21;
+    --bg: #F7F6F2;
+    --surface: #FFFFFF;
+    --surface2: #F1EFE8;
+    --border: rgba(0,0,0,0.08);
+    --border-strong: rgba(0,0,0,0.15);
+    --text: #1A1A18;
+    --text-2: #5A5A56;
+    --text-3: #9A9A94;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-brand {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.3px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+
+  .nav-pill {
+    background: var(--orange-light);
+    color: var(--orange-dark);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+  }
+
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+
+  .nav-back {
+    font-size: 13px;
+    color: var(--text-2);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    transition: background 0.15s;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+
+  .nav-back:hover { background: var(--surface2); }
+
+  .btn-primary {
+    background: var(--orange);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 8px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  .btn-primary:hover { background: var(--orange-dark); transform: translateY(-1px); }
+
+  /* LAYOUT */
+  .app-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    height: calc(100vh - 56px);
+  }
+
+  /* SIDEBAR */
+  aside {
+    width: 240px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+    gap: 2rem;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  .sidebar-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    padding: 0 8px;
+    margin-bottom: 6px;
+  }
+
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+
+  .sidebar-item:hover { background: var(--surface2); color: var(--text); }
+  .sidebar-item.active { background: var(--orange-light); color: var(--orange-dark); }
+
+  .sidebar-count {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--surface2);
+    color: var(--text-3);
+    border-radius: 20px;
+    padding: 1px 8px;
+  }
+
+  .sidebar-item.active .sidebar-count {
+    background: rgba(255,127,0,0.15);
+    color: var(--orange-dark);
+  }
+
+  /* MAIN */
+  main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .main-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .main-title {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+  }
+
+  .main-sub { font-size: 13px; color: var(--text-3); margin-top: 3px; }
+
+  /* STATS */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-3);
+    margin-bottom: 6px;
+  }
+
+  .stat-value {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .stat-delta { font-size: 11px; color: var(--orange); font-weight: 600; margin-top: 4px; }
+
+  /* FILTERS */
+  .filters-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .filter-chip {
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .filter-chip:hover { border-color: var(--orange); color: var(--orange-dark); }
+  .filter-chip.active { background: var(--orange); color: #fff; border-color: var(--orange); }
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 6px 12px;
+    margin-left: auto;
+  }
+
+  .search-box input {
+    border: none;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    background: none;
+    width: 180px;
+  }
+
+  .search-box input::placeholder { color: var(--text-3); }
+
+  /* TASK TABLE */
+  .task-table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  /* CATEGORY GROUP */
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 1.25rem;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .category-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .category-name {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-2);
+    flex: 1;
+  }
+
+  .category-count {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-3);
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 1px 9px;
+  }
+
+  .category-toggle {
+    font-size: 11px;
+    color: var(--text-3);
+    transition: transform 0.2s;
+  }
+
+  .category-toggle.collapsed { transform: rotate(-90deg); }
+
+  .task-check { display: none; }
+
+  /* EDIT BUTTON */
+  .task-edit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 10px;
+  }
+
+  .btn-edit-task {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    border: none;
+    background: none;
+    color: var(--text-3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.15s, background 0.15s, color 0.15s;
+    flex-shrink: 0;
+    padding: 0;
+  }
+
+  .task-row:hover .btn-edit-task { opacity: 1; }
+  .btn-edit-task:hover { background: var(--surface2); color: var(--orange-dark); }
+
+  /* TASK ROW */
+  .task-row {
+    display: grid;
+    grid-template-columns: 32px 1fr 2fr 110px 130px 130px 100px 90px;
+    align-items: center;
+    gap: 0;
+    padding: 0;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.12s;
+    min-height: 44px;
+  }
+
+  .task-row:last-child { border-bottom: none; }
+  .task-row:hover { background: #FAFAF8; }
+
+  .task-row.sub-item { background: #FDFCFB; }
+  .task-row.sub-item:hover { background: #F7F6F2; }
+
+
+
+
+  .task-name {
+    padding: 10px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.35;
+  }
+
+  .task-row.sub-item .task-name {
+    font-weight: 400;
+    color: var(--text-2);
+    padding-left: 8px;
+  }
+
+  .task-todo {
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--text-2);
+    line-height: 1.45;
+  }
+
+  .task-row.sub-item .task-todo {
+    color: var(--text-3);
+    font-size: 12px;
+  }
+
+  .task-who {
+    padding: 10px 8px;
+  }
+
+  .assignee-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: var(--surface2);
+    color: var(--text-2);
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .avatar-xs {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 8px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .av-sam { background: #E1F5EE; color: #0F6E56; }
+  .av-suzan { background: #fff3e0; color: #e06c00; }
+  .av-rosan { background: #FBEAF0; color: #993556; }
+  .av-support { background: #E6F1FB; color: #185FA5; }
+  .av-mt { background: #F1EFE8; color: #5F5E5A; }
+  .av-stijn { background: #EAF3DE; color: #3B6D11; }
+  .av-multi { background: #F1EFE8; color: #5F5E5A; }
+
+  .task-when {
+    padding: 10px 8px;
+    font-size: 11px;
+    color: var(--text-3);
+    white-space: nowrap;
+  }
+
+  .when-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--surface2);
+    color: var(--text-2);
+  }
+
+  .when-badge.urgent { background: #FCEBEB; color: #A32D2D; }
+  .when-badge.soon { background: #fff3e0; color: #e06c00; }
+  .when-badge.ongoing { background: #E1F5EE; color: #0F6E56; }
+
+  .task-note {
+    padding: 10px 12px 10px 8px;
+    font-size: 11px;
+    color: var(--text-3);
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  /* KLAAR BUTTON */
+  .task-actions {
+    padding: 6px 10px 6px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .btn-klaar {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-3);
+    background: none;
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    padding: 3px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    opacity: 0;
+  }
+
+  .task-row:hover .btn-klaar { opacity: 1; }
+  .btn-klaar:hover { background: #E8F6EF; border-color: #0F6E56; color: #0F6E56; }
+
+  /* DONE ROW STATE */
+  .task-row.is-done { opacity: 0.55; background: #FAFAF8; }
+  .task-row.is-done .task-name { text-decoration: line-through; color: var(--text-3); }
+  .task-row.is-done .task-todo { text-decoration: line-through; }
+
+  /* DONE DATE BADGE */
+  .done-date-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: #E8F6EF;
+    color: #0F6E56;
+    white-space: nowrap;
+  }
+
+  /* KLAAR SECTION */
+  .klaar-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-top: 0.5rem;
+  }
+
+  .klaar-section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 1.25rem;
+    background: #E8F6EF;
+    border-bottom: 1px solid rgba(15,110,86,0.12);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .klaar-section-header .category-name { color: #0F6E56; }
+  .klaar-section-header .category-count { background: rgba(15,110,86,0.12); color: #0F6E56; }
+  .klaar-section-header .category-toggle { color: #0F6E56; }
+
+  .klaar-checkmark {
+    width: 18px;
+    height: 18px;
+    background: #0F6E56;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 10px;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  /* RESTORE BUTTON */
+  .btn-restore {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-3);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: all 0.15s;
+  }
+
+  .task-row:hover .btn-restore { opacity: 1; }
+  .btn-restore:hover { background: var(--surface2); color: var(--text-2); }
+
+  #klaarList .task-row:hover .btn-restore { opacity: 1; }
+
+  /* TABLE HEADER */
+  .table-header {
+    display: grid;
+    grid-template-columns: 32px 1fr 2fr 110px 130px 130px 100px 90px;
+    padding: 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+
+  .th {
+    padding: 10px 12px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-3);
+  }
+
+  .th:first-child { padding-left: 14px; }
+
+  /* CATEGORY body */
+  .category-body { display: flex; flex-direction: column; }
+  .category-body.collapsed { display: none; }
+
+  /* MODAL */
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .modal-backdrop.open { display: flex; }
+
+  .modal {
+    background: var(--surface);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 540px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  }
+
+  .modal-header { display: flex; align-items: center; justify-content: space-between; }
+
+  .modal-title {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  .modal-close {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: none; background: var(--surface2); cursor: pointer;
+    font-size: 16px; color: var(--text-2);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+
+  .modal-close:hover { background: var(--border); }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+
+  .form-label {
+    font-size: 12px; font-weight: 600;
+    color: var(--text-2); text-transform: uppercase; letter-spacing: 0.08em;
+  }
+
+  .form-input, .form-select, .form-textarea {
+    font-family: 'DM Sans', sans-serif; font-size: 14px;
+    color: var(--text); background: var(--surface);
+    border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+    padding: 10px 12px; outline: none; transition: border-color 0.15s; width: 100%;
+  }
+
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--orange); }
+  .form-textarea { resize: vertical; min-height: 72px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .modal-footer { display: flex; justify-content: flex-end; gap: 10px; }
+
+  .btn-ghost {
+    background: none; border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm); padding: 7px 14px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    font-weight: 500; color: var(--text-2); cursor: pointer; transition: background 0.15s;
+  }
+
+  .btn-ghost:hover { background: var(--surface2); }
+
+  /* ── CATEGORY MANAGEMENT ── */
+
+  /* Sidebar item wrapper with hover actions */
+  .sidebar-cat-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .sidebar-cat-item .sidebar-item {
+    flex: 1;
+    padding-right: 28px; /* room for the ⋯ button */
+  }
+
+  .cat-menu-btn {
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    border: none;
+    background: none;
+    color: var(--text-3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.15s, background 0.15s;
+    line-height: 1;
+    padding: 0;
+  }
+
+  .sidebar-cat-item:hover .cat-menu-btn { opacity: 1; }
+  .cat-menu-btn:hover { background: var(--surface3, #e8e5f5); color: var(--text); }
+  .cat-menu-btn.open { opacity: 1; background: var(--surface2); }
+
+  /* Context dropdown */
+  .cat-dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 2px);
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    z-index: 500;
+    min-width: 160px;
+    padding: 4px;
+    display: none;
+  }
+
+  .cat-dropdown.open { display: block; }
+
+  .cat-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-2);
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    transition: background 0.12s, color 0.12s;
+  }
+
+  .cat-dropdown-item:hover { background: var(--surface2); color: var(--text); }
+  .cat-dropdown-item.danger { color: #A32D2D; }
+  .cat-dropdown-item.danger:hover { background: #FCEBEB; }
+
+  .cat-dropdown-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 3px 6px;
+  }
+
+  /* + Nieuwe categorie button */
+  .btn-add-category {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--orange-dark);
+    background: none;
+    border: 1px dashed rgba(255,127,0,0.35);
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    margin-top: 6px;
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .btn-add-category:hover { background: var(--orange-light); border-color: var(--orange); }
+
+  /* Inline rename input in sidebar */
+  .sidebar-rename-input {
+    flex: 1;
+    border: 1px solid var(--orange);
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    background: var(--surface);
+    outline: none;
+    min-width: 0;
+  }
+
+  /* Delete confirm modal */
+  .confirm-modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 600;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .confirm-modal-backdrop.open { display: flex; }
+
+  .confirm-modal {
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 1.75rem;
+    max-width: 380px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .confirm-modal h3 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+  }
+
+  .confirm-modal p {
+    font-size: 13px;
+    color: var(--text-2);
+    line-height: 1.55;
+  }
+
+  .confirm-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .btn-danger {
+    background: #C0392B;
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 8px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .btn-danger:hover { background: #A32D2D; }
+
+  /* ── TEAM SIDEBAR ── */
+  .team-filter-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    position: relative;
+  }
+
+  .team-filter-item:hover { background: var(--surface2); color: var(--text); }
+  .team-filter-item.active { background: var(--orange-light); color: var(--orange-dark); }
+  .team-filter-item.active .sidebar-count { background: rgba(255,127,0,0.15); color: var(--orange-dark); }
+
+  .team-avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    font-size: 9px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .team-filter-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .team-online-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .btn-manage-team {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-3);
+    background: none;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    width: 100%;
+    margin-top: 8px;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+
+  .btn-manage-team:hover { background: var(--surface2); color: var(--text-2); border-color: var(--border-strong); }
+
+  /* ── TEAM BEHEER PANEL ── */
+  .team-panel-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 400;
+  }
+
+  .team-panel-backdrop.open { display: block; }
+
+  .team-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 380px;
+    background: var(--surface);
+    box-shadow: -8px 0 40px rgba(0,0,0,0.14);
+    z-index: 401;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .team-panel-backdrop.open .team-panel {
+    transform: translateX(0);
+  }
+
+  .team-panel-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .team-panel-title {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+  }
+
+  .team-panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .team-member-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    transition: background 0.12s;
+  }
+
+  .team-member-row:hover { background: var(--surface2); }
+
+  .team-member-info { flex: 1; min-width: 0; }
+
+  .team-member-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .team-member-role {
+    font-size: 11px;
+    color: var(--text-3);
+    margin-top: 1px;
+  }
+
+  .team-member-actions { display: flex; gap: 6px; align-items: center; }
+
+  .btn-icon-sm {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-3);
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+    flex-shrink: 0;
+  }
+
+  .btn-icon-sm:hover { background: var(--surface2); color: var(--text); border-color: var(--border-strong); }
+  .btn-icon-sm.danger:hover { background: #FCEBEB; color: #A32D2D; border-color: #f5c6c6; }
+
+  .team-panel-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .add-member-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px;
+    background: var(--surface2);
+    border-radius: var(--radius-sm);
+    border: 1px dashed var(--border-strong);
+  }
+
+  .add-member-form-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-3);
+  }
+
+  .add-member-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .avatar-color-picker { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .avatar-color-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: box-shadow 0.12s;
+    flex-shrink: 0;
+  }
+
+  /* ── STATUS ── */
+  .task-status {
+    padding: 8px 8px;
+    display: flex;
+    align-items: center;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: none;
+    white-space: nowrap;
+    transition: opacity 0.15s, transform 0.1s;
+    background: var(--surface2);
+    color: var(--text-3);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .status-badge:hover { opacity: 0.8; transform: scale(0.97); }
+
+  .status-badge .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── MULTI SELECT WIE ── */
+  .wie-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 4px 0;
+  }
+
+  .wie-option {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px 4px 6px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border-strong);
+    background: var(--surface);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-2);
+    transition: all 0.12s;
+    user-select: none;
+  }
+
+  .wie-option:hover { border-color: var(--orange); color: var(--text); }
+
+  .wie-option.selected {
+    border-color: var(--orange);
+    background: var(--orange-light);
+    color: var(--orange-dark);
+  }
+
+  .wie-option .team-avatar {
+    width: 18px;
+    height: 18px;
+    font-size: 8px;
+  }
+
+  /* Status variants */
+  .status-open       { background: #F1EFE8; color: #7A7A72; }
+  .status-open .status-dot { background: #B4B2A9; }
+
+  .status-working    { background: #FFF0D6; color: #B05E00; }
+  .status-working .status-dot { background: #FF9500; }
+
+  .status-review     { background: #EDE9FF; color: #5B3FB5; }
+  .status-review .status-dot { background: #7F77DD; }
+
+  .status-blocked    { background: #FCEBEB; color: #A32D2D; }
+  .status-blocked .status-dot { background: #E05252; }
+
+  .status-done       { background: #E8F6EF; color: #0F6E56; }
+  .status-done .status-dot { background: #1D9E75; }
+
+  /* Status dropdown */
+  .status-dropdown {
+    position: fixed;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.13);
+    z-index: 300;
+    min-width: 170px;
+    padding: 4px;
+    display: none;
+  }
+
+  .status-dropdown.open { display: block; }
+
+  .status-option {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 10px;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.1s;
+  }
+
+  .status-option:hover { background: var(--surface2); }
+
+  .status-option .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .task-table-wrap { animation: fadeInUp 0.3s ease both; }
+
+  @media (max-width: 900px) {
+    aside { display: none; }
+    main { padding: 1.5rem; }
+    .task-row { grid-template-columns: 32px 1fr 2fr 110px 130px 90px; }
+    .table-header { grid-template-columns: 32px 1fr 2fr 110px 130px 90px; }
+    .task-when, .task-note { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .task-row { grid-template-columns: 32px 1fr 130px 90px; }
+    .table-header { grid-template-columns: 32px 1fr 130px 90px; }
+    .task-todo { display: none; }
+    main { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+<a class="nav-brand" href="up-marketing.html">
+    <!-- UP Tasks SVG logo (icon + text) -->
+    <svg height="36" viewBox="0 0 356.82 98.16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <defs>
+        <clipPath id="nav-t-cp"><rect width="98.16" height="98.16" rx="14" ry="14"/></clipPath>
+        <linearGradient id="nav-t-g1" x1="49.08" y1="0" x2="49.08" y2="98.16" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff7f00"/><stop offset="1" stop-color="#fbb03b"/></linearGradient>
+        <linearGradient id="nav-t-g2" x1="29.27" y1="54.25" x2="68.89" y2="54.25" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff7f00"/><stop offset="1" stop-color="#fbb03b"/></linearGradient>
+        <linearGradient id="nav-t-g3" x1="33.32" y1="70.4" x2="58.15" y2="70.4" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffce00"/><stop offset="1" stop-color="#fcee21"/></linearGradient>
+      </defs>
+      <g clip-path="url(#nav-t-cp)">
+        <rect fill="url(#nav-t-g1)" width="98.16" height="98.16"/>
+        <path fill="#fff" d="M98.16,103.4H0V36.28C0,27.95,6.32,21.21,14.11,21.21h69.94c7.79,0,14.11,6.75,14.11,15.07v67.12Z"/>
+        <path fill="url(#nav-t-g2)" d="M63.37,40.26h-28.58c-3.05,0-5.52,2.47-5.52,5.52v16.2h6.1v-15.46h27.42v15.46h-13.33v6.26h13.91c3.05,0,5.52-2.47,5.52-5.52v-16.94c0-3.05-2.47-5.52-5.52-5.52Z"/>
+        <polygon fill="url(#nav-t-g3)" points="49.46 61.97 41.34 70.08 37.76 66.5 33.32 70.92 41.24 78.82 52.04 68.05 58.15 61.97 49.46 61.97"/>
+      </g>
+      <path fill="#1A1A18" d="M134.89,64.89c-2.6-2.7-3.9-6.4-3.9-11.1v-24.59h8.26v24.59c0,2.42.59,4.31,1.79,5.69,1.19,1.38,3.23,2.07,6.12,2.07s4.87-.69,6.05-2.07,1.76-3.27,1.76-5.69v-24.59h8.26v24.59c0,4.69-1.3,8.39-3.9,11.1-2.6,2.7-6.66,4.06-12.17,4.06s-9.67-1.35-12.27-4.06Z"/>
+      <path fill="#1A1A18" d="M169.4,68.13V29.21h17.6c3.81,0,6.81.94,9,2.83,2.19,1.89,3.29,4.82,3.29,8.8,0,2.48-.52,4.63-1.56,6.43-1.04,1.8-2.48,3.18-4.34,4.13-1.85.95-3.99,1.43-6.4,1.43h-9.39v15.3h-8.21ZM185.82,45.69c1.73,0,3.05-.39,3.95-1.17.9-.78,1.35-1.92,1.35-3.42s-.45-2.58-1.35-3.34c-.9-.77-2.22-1.15-3.95-1.15h-8.21v9.08h8.21Z"/>
+      <path fill="#1A1A18" d="M234.08,68.13h-8.21v-31.53h-11.43v-7.4h31.07v7.4h-11.43v31.53Z"/>
+      <path fill="#1A1A18" d="M243.06,66.47c-1.77-1.51-2.65-3.63-2.65-6.35,0-2.92,1.16-5.17,3.47-6.73,1.5-1.02,3.74-1.8,6.73-2.35l8.01-1.48c-.03-1.6-.46-2.82-1.28-3.67-.75-.82-1.87-1.22-3.37-1.22-1.19,0-2.23.37-3.11,1.1-.88.73-1.45,1.73-1.68,2.98h-7.7c.34-2.21,1.13-4.06,2.37-5.56,1.24-1.5,2.75-2.61,4.54-3.34,1.79-.73,3.66-1.1,5.64-1.1,1.73,0,3.37.24,4.9.71,1.53.48,2.84,1.19,3.93,2.14,1.09.95,1.88,2.06,2.37,3.32.49,1.26.8,2.54.92,3.85.12,1.31.18,3,.18,5.08v14.28h-7.75v-3.72c-.54,1.22-1.31,2.14-2.3,2.75-1.56,1.05-3.71,1.58-6.43,1.58s-5.02-.76-6.79-2.27ZM255.31,62.01c1.29-.61,2.18-1.45,2.65-2.5.48-1.05.75-2.52.82-4.39l-6.07,1.17c-.99.2-1.76.43-2.32.66-.56.24-1.03.53-1.4.87-.58.58-.87,1.26-.87,2.04,0,.95.36,1.68,1.07,2.17.71.49,1.63.74,2.75.74,1.19,0,2.31-.26,3.37-.77Z"/>
+      <path fill="#1A1A18" d="M275.3,66.19c-2.69-1.7-4.25-4.32-4.69-7.86h7.55c.44,1.46,1.23,2.57,2.37,3.32,1.14.75,2.47,1.12,4,1.12,1.33,0,2.42-.26,3.29-.79.87-.53,1.3-1.25,1.3-2.17,0-1.02-.51-1.75-1.53-2.19-1.02-.44-2.64-.9-4.85-1.38-2.24-.44-4.11-.92-5.59-1.43-1.48-.51-2.75-1.36-3.8-2.55-1.05-1.19-1.58-2.81-1.58-4.85,0-2.89,1.08-5.06,3.24-6.5,2.16-1.45,4.85-2.17,8.09-2.17,3.5,0,6.4.87,8.7,2.6,2.3,1.73,3.7,4.18,4.21,7.35h-7.29c-.37-1.39-1.06-2.41-2.07-3.06-1-.65-2.19-.97-3.55-.97-1.22,0-2.19.23-2.91.69-.71.46-1.07,1.08-1.07,1.86,0,.95.51,1.65,1.53,2.09,1.02.44,2.62.85,4.8,1.22,2.31.41,4.23.87,5.74,1.38,1.51.51,2.81,1.35,3.9,2.53,1.09,1.17,1.63,2.8,1.63,4.87,0,1.87-.48,3.52-1.45,4.95-.97,1.43-2.36,2.53-4.18,3.32-1.82.78-3.97,1.17-6.45,1.17-3.54,0-6.65-.85-9.34-2.55Z"/>
+      <path fill="#1A1A18" d="M309.38,68.13h-7.75V29.21h7.75v20.51l9.79-10.36h9.69l-12.29,12.45,13.06,16.32h-9.34l-10.92-14.03v14.03Z"/>
+      <path fill="#1A1A18" d="M335.4,66.19c-2.69-1.7-4.25-4.32-4.69-7.86h7.55c.44,1.46,1.23,2.57,2.37,3.32,1.14.75,2.47,1.12,4,1.12,1.33,0,2.42-.26,3.29-.79.87-.53,1.3-1.25,1.3-2.17,0-1.02-.51-1.75-1.53-2.19-1.02-.44-2.64-.9-4.85-1.38-2.24-.44-4.11-.92-5.59-1.43-1.48-.51-2.75-1.36-3.8-2.55-1.05-1.19-1.58-2.81-1.58-4.85,0-2.89,1.08-5.06,3.24-6.5,2.16-1.45,4.85-2.17,8.09-2.17,3.5,0,6.4.87,8.7,2.6,2.3,1.73,3.7,4.18,4.21,7.35h-7.29c-.37-1.39-1.06-2.41-2.07-3.06-1-.65-2.19-.97-3.55-.97-1.22,0-2.19.23-2.91.69-.71.46-1.07,1.08-1.07,1.86,0,.95.51,1.65,1.53,2.09,1.02.44,2.62.85,4.8,1.22,2.31.41,4.23.87,5.74,1.38,1.51.51,2.81,1.35,3.9,2.53,1.09,1.17,1.63,2.8,1.63,4.87,0,1.87-.48,3.52-1.45,4.95-.97,1.43-2.36,2.53-4.18,3.32-1.82.78-3.97,1.17-6.45,1.17-3.54,0-6.65-.85-9.34-2.55Z"/>
+    </svg>
+  </a>
+  <div class="nav-right">
+    <a style="font-size:13px;font-weight:600;color:var(--text-2);padding:6px 14px;border-radius:var(--radius-sm);border:none;background:none;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:6px;font-family:'DM Sans',sans-serif;" href="up-uren.html" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background='none'">
+      <svg width="14" height="14" fill="none" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M7 4v3.5l2 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      Uren
+    </a>
+    <button class="nav-back" onclick="window.location.href='up-marketing.html'">← Terug naar UP Marketing</button>
+    <button class="btn-primary" onclick="openModal()">+ Nieuwe taak</button>
+  </div>
+</nav>
+
+<div class="app-layout">
+
+  <aside>
+    <div>
+      <p class="sidebar-section-label">Weergave</p>
+      <button class="sidebar-item active" onclick="setSidebarActive(this)">
+        <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="3" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="6.5" width="14" height="3" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="12" width="14" height="3" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
+        Alle taken
+        <span class="sidebar-count" id="count-alle-taken">98</span>
+      </button>
+      <button class="sidebar-item" onclick="setSidebarActive(this)">
+        <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.5v3.5l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Deze week
+      </button>
+    </div>
+
+    <div>
+      <p class="sidebar-section-label">Team</p>
+      <div id="sidebarTeam"></div>
+      <button class="btn-manage-team" onclick="openTeamPanel()">
+        <svg width="12" height="12" fill="none" viewBox="0 0 12 12"><circle cx="4.5" cy="3.5" r="2" stroke="currentColor" stroke-width="1.3"/><path d="M1 10c0-2 1.5-3 3.5-3s3.5 1 3.5 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M8.5 5.5h3M10 4v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Team beheren
+      </button>
+    </div>
+
+    <div>
+      <p class="sidebar-section-label">Categorieën</p>
+      <div id="sidebarCategories"></div>
+      <button class="btn-add-category" onclick="openAddCategoryModal()">
+        <svg width="12" height="12" fill="none" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Nieuwe categorie
+      </button>
+    </div>
+
+    <div>
+      <p class="sidebar-section-label">Afgerond</p>
+      <button class="sidebar-item" id="sidebar-klaar" onclick="showKlaarView(this)">
+        <svg width="16" height="16" fill="none" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" stroke="#0F6E56" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Klaar
+        <span class="sidebar-count" id="klaar-sidebar-count" style="background:rgba(15,110,86,0.1);color:#0F6E56;">0</span>
+      </button>
+    </div>
+  </aside>
+
+  <main>
+    <div class="stats-row">
+      <div class="stat-card">
+        <p class="stat-label">Totaal taken</p>
+        <p class="stat-value" id="stat-total">—</p>
+        <p class="stat-delta">Actief</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Deze week</p>
+        <p class="stat-value" id="stat-week">—</p>
+        <p class="stat-delta">Gepland</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">In uitvoering</p>
+        <p class="stat-value" id="stat-working">—</p>
+        <p class="stat-delta" style="color:#B05E00;">Working on it</p>
+      </div>
+      <div class="stat-card" style="background:var(--orange);border-color:var(--orange);">
+        <p class="stat-label" style="color:rgba(255,255,255,0.75);">Weeknummer</p>
+        <p class="stat-value" id="stat-week-nr" style="color:#fff;"></p>
+        <p class="stat-delta" style="color:rgba(255,255,255,0.75);" id="stat-year"></p>
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filters-row">
+      <button class="filter-chip active" onclick="setFilter(this, 'all')">Alle</button>
+      <button class="filter-chip" onclick="setFilter(this, 'week')">Deze week</button>
+      <button class="filter-chip" onclick="setFilter(this, 'suzan')">Suzan</button>
+      <button class="filter-chip" onclick="setFilter(this, 'sam')">Sam</button>
+      <button class="filter-chip" onclick="setFilter(this, 'rosan')">Rosan</button>
+      <div class="search-box">
+        <svg width="14" height="14" fill="none" viewBox="0 0 14 14"><circle cx="6" cy="6" r="4.5" stroke="#9A9A94" stroke-width="1.5"/><line x1="9.5" y1="9.5" x2="13" y2="13" stroke="#9A9A94" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <input type="text" id="searchInput" placeholder="Zoeken in taken..." oninput="searchTasks(this.value)">
+      </div>
+    </div>
+
+    <!-- TASK TABLE -->
+    <div class="task-table-wrap" id="taskTable">
+
+      <!-- TABLE HEADER -->
+      <div class="table-header">
+        <div class="th"></div>
+        <div class="th">Taak</div>
+        <div class="th">To do</div>
+        <div class="th">Wie</div>
+        <div class="th">Status</div>
+        <div class="th">Wanneer</div>
+        <div class="th">Opmerking</div>
+        <div class="th"></div>
+      </div>
+
+      <!-- HANDLEIDINGEN -->
+      <div class="category-group" data-category="Handleidingen">
+        <div class="category-header" onclick="toggleCategory(this)">
+          <div class="category-dot" style="background:#378ADD;"></div>
+          <span class="category-name">Handleidingen</span>
+          <span class="category-count">0</span>
+          <span class="category-toggle">▾</span>
+        </div>
+        <div class="category-body">
+          <div style="padding:1.5rem;text-align:center;font-size:12px;color:var(--text-3);">Geen taken in deze categorie.</div>
+        </div>
+      </div>
+
+    </div><!-- /task-table-wrap -->
+
+    <!-- KLAAR SECTION -->
+    <div class="klaar-section" id="klaarSection" style="display:none;">
+      <div class="klaar-section-header category-header" onclick="toggleKlaarSection(this)">
+        <div class="klaar-checkmark">✓</div>
+        <span class="category-name">Klaar</span>
+        <span class="category-count" id="klaar-count">0</span>
+        <span class="category-toggle">▾</span>
+      </div>
+      <div class="category-body" id="klaarList">
+        <!-- completed tasks injected here -->
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- NEW TASK MODAL -->
+<div class="modal-backdrop" id="modal" onclick="handleBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title">Nieuwe taak</h2>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Taaknaam</label>
+      <input class="form-input" id="newTaskName" type="text" placeholder="Bijv. Nieuwe brochure opmaken" onkeydown="if(event.key==='Enter') confirmAddTask()">
+    </div>
+    <div class="form-group">
+      <label class="form-label">To do / omschrijving</label>
+      <textarea class="form-textarea" id="newTaskTodo" placeholder="Wat moet er precies gedaan worden?"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Categorie</label>
+        <select class="form-select" id="newTaskCategory"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Wie</label>
+        <div class="wie-picker" id="newTaskWiePicker"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Wanneer</label>
+      <input class="form-input" id="newTaskWanneer" type="text" placeholder="Bijv. Week 17, Mei 2026, Doorlopend">
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeModal()">Annuleren</button>
+      <button class="btn-primary" onclick="confirmAddTask()">Taak aanmaken</button>
+    </div>
+  </div>
+</div>
+
+<!-- TEAM BEHEER PANEL -->
+<div class="team-panel-backdrop" id="teamPanelBackdrop" onclick="handleTeamPanelBackdrop(event)">
+  <div class="team-panel" id="teamPanel">
+    <div class="team-panel-header">
+      <div>
+        <p class="team-panel-title">Team Marketing</p>
+        <p style="font-size:12px;color:var(--text-3);margin-top:2px;" id="teamPanelSubtitle"></p>
+      </div>
+      <button class="modal-close" onclick="closeTeamPanel()">✕</button>
+    </div>
+    <div class="team-panel-body" id="teamPanelBody"></div>
+    <div class="team-panel-footer">
+      <div class="add-member-form" id="addMemberForm">
+        <p class="add-member-form-title">Teamlid toevoegen</p>
+        <div class="add-member-form-row">
+          <div class="form-group">
+            <label class="form-label" style="font-size:10px;">Naam</label>
+            <input class="form-input" type="text" id="newMemberName" placeholder="Bijv. Lisa" style="font-size:13px;padding:7px 10px;" onkeydown="if(event.key==='Enter') confirmAddMember()">
+          </div>
+          <div class="form-group">
+            <label class="form-label" style="font-size:10px;">Functie</label>
+            <input class="form-input" type="text" id="newMemberRole" placeholder="Bijv. Designer" style="font-size:13px;padding:7px 10px;" onkeydown="if(event.key==='Enter') confirmAddMember()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" style="font-size:10px;">Avatar kleur</label>
+          <div class="avatar-color-picker" id="memberColorPicker"></div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;">
+          <button class="btn-primary" style="font-size:12px;padding:7px 16px;" onclick="confirmAddMember()">Toevoegen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MEMBER MODAL -->
+<div class="confirm-modal-backdrop" id="editMemberModal">
+  <div class="confirm-modal" style="max-width:340px;">
+    <h3>Teamlid bewerken</h3>
+    <div class="form-group">
+      <label class="form-label">Naam</label>
+      <input class="form-input" type="text" id="editMemberName" onkeydown="if(event.key==='Enter') confirmEditMember()">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Functie</label>
+      <input class="form-input" type="text" id="editMemberRole" onkeydown="if(event.key==='Enter') confirmEditMember()">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Avatar kleur</label>
+      <div class="avatar-color-picker" id="editMemberColorPicker"></div>
+    </div>
+    <div class="confirm-modal-footer">
+      <button class="btn-ghost" onclick="closeEditMemberModal()">Annuleren</button>
+      <button class="btn-primary" onclick="confirmEditMember()">Opslaan</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE MEMBER CONFIRM -->
+<div class="confirm-modal-backdrop" id="deleteMemberModal">
+  <div class="confirm-modal" style="max-width:340px;">
+    <h3>Teamlid verwijderen?</h3>
+    <p id="deleteMemberText"></p>
+    <div class="confirm-modal-footer">
+      <button class="btn-ghost" onclick="document.getElementById('deleteMemberModal').classList.remove('open')">Annuleren</button>
+      <button class="btn-danger" onclick="confirmDeleteMember()">Verwijderen</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="confirm-modal-backdrop" id="deleteModal">
+  <div class="confirm-modal">
+    <h3>Categorie verwijderen?</h3>
+    <p id="deleteModalText">Weet je zeker dat je deze categorie wilt verwijderen? De taken in deze categorie blijven bewaard maar zijn niet meer zichtbaar onder een categorie.</p>
+    <div class="confirm-modal-footer">
+      <button class="btn-ghost" onclick="closeDeleteModal()">Annuleren</button>
+      <button class="btn-danger" onclick="confirmDeleteCategory()">Verwijderen</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD CATEGORY MODAL -->
+<div class="modal-backdrop" id="addCatModal" onclick="handleAddCatBackdrop(event)">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header">
+      <h2 class="modal-title">Nieuwe categorie</h2>
+      <button class="modal-close" onclick="closeAddCategoryModal()">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Naam</label>
+      <input class="form-input" type="text" id="newCatName" placeholder="Bijv. Events" onkeydown="if(event.key==='Enter') confirmAddCategory()">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Kleur</label>
+      <div id="colorPicker" style="display:flex;gap:8px;flex-wrap:wrap;padding:4px 0;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeAddCategoryModal()">Annuleren</button>
+      <button class="btn-primary" onclick="confirmAddCategory()">Aanmaken</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ══════════════════════════════════════════════
+     SUPABASE CONFIG
+  ══════════════════════════════════════════════ */
+  const SB_URL = 'https://qbubzkzkvavngjkhxzrg.supabase.co';
+  const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFidWJ6a3prdmFudmdqa2h4enJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMzQ3MjYsImV4cCI6MjA5MTcxMDcyNn0.qDTEq6FeeNPY9xYx7xtkU4q_LCCfaTN9ISM5A20BDlw';
+
+  const sbHeaders = {
+    'apikey': SB_KEY,
+    'Authorization': 'Bearer ' + SB_KEY,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=representation'
+  };
+
+  async function sbGet(table, params = '') {
+    const r = await fetch(`${SB_URL}/rest/v1/${table}?${params}&order=created_at.asc`, { headers: sbHeaders });
+    if (!r.ok) throw new Error(`GET ${table} failed: ${r.status}`);
+    return r.json();
+  }
+
+  async function sbPost(table, body) {
+    const r = await fetch(`${SB_URL}/rest/v1/${table}`, {
+      method: 'POST', headers: sbHeaders, body: JSON.stringify(body)
+    });
+    if (!r.ok) throw new Error(`POST ${table} failed: ${r.status}`);
+    return r.json();
+  }
+
+  async function sbPatch(table, id, body) {
+    const r = await fetch(`${SB_URL}/rest/v1/${table}?id=eq.${id}`, {
+      method: 'PATCH', headers: sbHeaders, body: JSON.stringify(body)
+    });
+    if (!r.ok) throw new Error(`PATCH ${table} failed: ${r.status}`);
+    return r.json();
+  }
+
+  async function sbDelete(table, id) {
+    const r = await fetch(`${SB_URL}/rest/v1/${table}?id=eq.${id}`, {
+      method: 'DELETE', headers: sbHeaders
+    });
+    if (!r.ok) throw new Error(`DELETE ${table} failed: ${r.status}`);
+  }
+
+  /* ── LOADING OVERLAY ── */
+  function showLoading() {
+    document.getElementById('loadingOverlay').style.display = 'flex';
+  }
+  function hideLoading() {
+    document.getElementById('loadingOverlay').style.display = 'none';
+  }
+
+  /* ── BOOTSTRAP: load all data from Supabase ── */
+  async function loadFromSupabase() {
+    showLoading();
+    try {
+      const [dbMembers, dbCategories, dbTasks] = await Promise.all([
+        sbGet('team_members'),
+        sbGet('categories'),
+        sbGet('tasks')
+      ]);
+
+      /* ── Team members ── */
+      teamMembers = dbMembers.map(m => ({
+        id: m.id,
+        name: m.name,
+        initials: m.initials,
+        role: m.role || '',
+        color: { bg: m.color_bg || '#fff3e0', text: m.color_text || '#e06c00' },
+        online: m.online !== false
+      }));
+
+      /* ── Categories ── */
+      categories = dbCategories.map(c => ({ id: c.id, name: c.name, color: c.color }));
+
+      /* ── Rebuild DOM: clear taskTable, rebuild category groups ── */
+      const taskTable = document.getElementById('taskTable');
+      // Keep only the table header
+      const header = taskTable.querySelector('.table-header');
+      taskTable.innerHTML = '';
+      if (header) taskTable.appendChild(header);
+
+      categories.forEach(cat => {
+        const group = document.createElement('div');
+        group.className = 'category-group';
+        group.dataset.category = cat.name;
+        group.dataset.categoryId = cat.id;
+        group.innerHTML = `
+          <div class="category-header" onclick="toggleCategory(this)">
+            <div class="category-dot" style="background:${cat.color};"></div>
+            <span class="category-name">${escHtml(cat.name)}</span>
+            <span class="category-count">0</span>
+            <span class="category-toggle">▾</span>
+          </div>
+          <div class="category-body"></div>`;
+        taskTable.appendChild(group);
+      });
+
+      /* ── Tasks ── */
+      dbTasks.forEach(t => {
+        const cat = categories.find(c => c.id === t.category_id);
+        if (!cat) return;
+        const group = taskTable.querySelector(`.category-group[data-category-id="${cat.id}"]`);
+        if (!group) return;
+        const body = group.querySelector('.category-body');
+        const assignees = Array.isArray(t.assignees) ? t.assignees : [];
+        const whenBadge = t.wanneer ? `<span class="when-badge">${escHtml(t.wanneer)}</span>` : '';
+        const statusCls = t.status || 'open';
+        const statusLabels = { open:'Open', working:'Working on it', review:'In review', blocked:'Geblokkeerd' };
+        const row = document.createElement('div');
+        row.className = 'task-row';
+        row.dataset.taskId = t.id;
+        row.innerHTML = `
+          <div class="task-edit"><button class="btn-edit-task" onclick="openEditTask(this)" title="Bewerken"><svg width="12" height="12" fill="none" viewBox="0 0 12 12"><path d="M8 2l2 2-5 5H3V7l5-5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button></div>
+          <div class="task-name">${escHtml(t.name)}</div>
+          <div class="task-todo">${escHtml(t.todo || '')}</div>
+          <div class="task-who">${buildAssigneePill(assignees)}</div>
+          <div class="task-status"><button class="status-badge status-${statusCls}" onclick="openStatusDropdown(event, this)"><span class="status-dot"></span>${statusLabels[statusCls] || 'Open'}</button></div>
+          <div class="task-when">${whenBadge}</div>
+          <div class="task-note">${escHtml(t.note || '')}</div>
+          <div class="task-actions"><button class="btn-klaar" onclick="markKlaar(this)">✓ Klaar</button></div>`;
+        body.appendChild(row);
+      });
+
+      /* ── Update counts ── */
+      categories.forEach(cat => {
+        const group = taskTable.querySelector(`.category-group[data-category-id="${cat.id}"]`);
+        if (group) {
+          const countEl = group.querySelector('.category-count');
+          if (countEl) countEl.textContent = group.querySelectorAll('.task-row').length;
+        }
+      });
+
+      renderSidebarTeam();
+      renderSidebarCategories();
+      updateSidebarCounts();
+      updateStats();
+
+    } catch(err) {
+      console.error('Supabase load error:', err);
+      document.getElementById('loadingOverlay').innerHTML =
+        `<div style="background:#fff;padding:2rem;border-radius:12px;max-width:400px;text-align:center;">
+          <p style="font-weight:700;margin-bottom:8px;">Kan geen verbinding maken</p>
+          <p style="font-size:13px;color:#888;margin-bottom:16px;">Controleer of de Supabase tabellen zijn aangemaakt en RLS is uitgeschakeld.</p>
+          <p style="font-size:11px;color:#aaa;">${err.message}</p>
+          <button onclick="loadFromSupabase()" style="margin-top:16px;padding:8px 20px;background:#ff7f00;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;">Opnieuw proberen</button>
+        </div>`;
+    }
+    hideLoading();
+  }
+
+  /* ── SUPABASE CRUD WRAPPERS ── */
+
+  /* Team members */
+  async function sbAddMember(memberData) {
+    const rows = await sbPost('team_members', {
+      name: memberData.name,
+      initials: memberData.initials,
+      role: memberData.role,
+      color_bg: memberData.color.bg,
+      color_text: memberData.color.text,
+      online: true
+    });
+    return rows[0];
+  }
+
+  async function sbUpdateMember(id, data) {
+    await sbPatch('team_members', id, {
+      name: data.name, initials: data.initials, role: data.role,
+      color_bg: data.color.bg, color_text: data.color.text
+    });
+  }
+
+  async function sbDeleteMember(id) { await sbDelete('team_members', id); }
+  async function sbToggleMemberOnline(id, online) { await sbPatch('team_members', id, { online }); }
+
+  /* Categories */
+  async function sbAddCategory(name, color) {
+    const rows = await sbPost('categories', { name, color });
+    return rows[0];
+  }
+
+  async function sbUpdateCategory(id, name, color) {
+    await sbPatch('categories', id, { name, color });
+  }
+
+  async function sbDeleteCategory(id) { await sbDelete('categories', id); }
+
+  /* Tasks */
+  async function sbAddTask(categoryId, taskData) {
+    const rows = await sbPost('tasks', {
+      category_id: categoryId,
+      name: taskData.name,
+      todo: taskData.todo,
+      assignees: taskData.assignees,
+      status: 'open',
+      wanneer: taskData.wanneer,
+      note: ''
+    });
+    return rows[0];
+  }
+
+  async function sbUpdateTask(id, data) {
+    await sbPatch('tasks', id, data);
+  }
+
+  async function sbDeleteTask(id) { await sbDelete('tasks', id); }
+
+  /* ── TEAM DATA ── */
+  const AVATAR_COLORS = [
+    { bg:'#E1F5EE', text:'#0F6E56' },
+    { bg:'#fff3e0', text:'#e06c00' },
+    { bg:'#FBEAF0', text:'#993556' },
+    { bg:'#E6F1FB', text:'#185FA5' },
+    { bg:'#EAF3DE', text:'#3B6D11' },
+    { bg:'#F1EFE8', text:'#5F5E5A' },
+    { bg:'#EDE9FF', text:'#5B3FB5' },
+    { bg:'#FFECEC', text:'#A32D2D' },
+    { bg:'#E0F7FA', text:'#00695C' },
+    { bg:'#FFF8E1', text:'#8B6C00' },
+  ];
+
+  let teamMembers = [
+    { id:1, name:'Suzanne', initials:'SZ', role:'Marketing Manager', color:AVATAR_COLORS[1], online:true  },
+    { id:2, name:'Sam',     initials:'SM', role:'Marketing',          color:AVATAR_COLORS[0], online:true  },
+    { id:3, name:'Rosan',   initials:'RS', role:'Marketing',          color:AVATAR_COLORS[2], online:true  },
+  ];
+  let nextMemberId = 4;
+  let activeTeamFilter = null;
+  let pendingDeleteMemberId = null;
+  let editingMemberId = null;
+  let selectedMemberColor = AVATAR_COLORS[0];
+  let editSelectedColor = AVATAR_COLORS[0];
+
+  function getInitials(name) {
+    const parts = name.trim().split(/\s+/);
+    return parts.length >= 2 ? (parts[0][0]+parts[1][0]).toUpperCase() : name.slice(0,2).toUpperCase();
+  }
+
+  /* ── SIDEBAR TEAM ── */
+  function renderSidebarTeam() {
+    const container = document.getElementById('sidebarTeam');
+    const allActive = !activeTeamFilter;
+    let html = `
+      <button class="team-filter-item${allActive ? ' active' : ''}" onclick="filterByMember('all', this)">
+        <div class="team-avatar" style="background:var(--orange-light);color:var(--orange-dark);font-size:11px;">
+          <svg width="14" height="14" fill="none" viewBox="0 0 14 14"><circle cx="5" cy="4" r="2.2" stroke="currentColor" stroke-width="1.3"/><path d="M1 12c0-2.2 1.8-4 4-4s4 1.8 4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="10" cy="4.5" r="1.7" stroke="currentColor" stroke-width="1.3"/><path d="M10 8.5c1.8 0 3 1 3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </div>
+        <span class="team-filter-name">Heel team</span>
+        <span class="sidebar-count">${countTasksForMember('all')}</span>
+      </button>`;
+    teamMembers.forEach(m => {
+      const isActive = activeTeamFilter === m.name;
+      html += `
+        <button class="team-filter-item${isActive ? ' active' : ''}" onclick="filterByMember('${escHtml(m.name)}', this)">
+          <div class="team-avatar" style="background:${m.color.bg};color:${m.color.text};">${m.initials}</div>
+          <span class="team-filter-name">${escHtml(m.name)}</span>
+          <span class="team-online-dot" style="background:${m.online ? 'var(--orange)' : 'var(--text-3)'};"></span>
+          <span class="sidebar-count">${countTasksForMember(m.name)}</span>
+        </button>`;
+    });
+    container.innerHTML = html;
+  }
+
+  function countTasksForMember(nameOrAll) {
+    let count = 0;
+    document.querySelectorAll('.task-row').forEach(row => {
+      if (row.closest('#klaarList')) return;
+      if (row.style.display === 'none') return;
+      if (nameOrAll === 'all') { count++; return; }
+      const who = row.querySelector('.task-who')?.innerText || '';
+      if (who.toLowerCase().includes(nameOrAll.toLowerCase())) count++;
+    });
+    return count;
+  }
+
+  function updateTeamCounts() {
+    // Update "Heel team" count
+    document.querySelectorAll('.team-filter-item').forEach(btn => {
+      const countEl = btn.querySelector('.sidebar-count');
+      if (!countEl) return;
+      const nameEl = btn.querySelector('.team-filter-name');
+      if (!nameEl) return;
+      const label = nameEl.textContent.trim();
+      if (label === 'Heel team') {
+        countEl.textContent = countTasksForMember('all');
+      } else {
+        countEl.textContent = countTasksForMember(label);
+      }
+    });
+  }
+
+  /* ── TEAM FILTERING ── */
+  function filterByMember(nameOrAll, btn) {
+    activeTeamFilter = (nameOrAll === 'all') ? null : nameOrAll;
+    hideKlaarSection();
+    document.querySelectorAll('.team-filter-item').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+    btn.classList.add('active');
+    showTaskTable();
+    document.querySelectorAll('.category-group').forEach(g => g.style.display = '');
+    document.querySelectorAll('.task-row').forEach(row => {
+      if (row.closest('#klaarList')) return;
+      if (!activeTeamFilter) { row.style.display = ''; return; }
+      const who = row.querySelector('.task-who')?.innerText || '';
+      row.style.display = who.toLowerCase().includes(activeTeamFilter.toLowerCase()) ? '' : 'none';
+    });
+    updateSidebarCounts();
+    updateStats();
+  }
+
+  /* ── TEAM PANEL ── */
+  function openTeamPanel() {
+    renderTeamPanel();
+    renderMemberColorPicker('memberColorPicker', selectedMemberColor);
+    document.getElementById('teamPanelBackdrop').classList.add('open');
+  }
+
+  function closeTeamPanel() {
+    document.getElementById('teamPanelBackdrop').classList.remove('open');
+  }
+
+  function handleTeamPanelBackdrop(e) {
+    if (e.target === document.getElementById('teamPanelBackdrop')) closeTeamPanel();
+  }
+
+  function renderTeamPanel() {
+    document.getElementById('teamPanelSubtitle').textContent = teamMembers.length + ' leden';
+    document.getElementById('teamPanelBody').innerHTML = teamMembers.map(m => `
+      <div class="team-member-row">
+        <div class="team-avatar" style="background:${m.color.bg};color:${m.color.text};width:36px;height:36px;font-size:12px;flex-shrink:0;">${m.initials}</div>
+        <div class="team-member-info">
+          <div class="team-member-name">${escHtml(m.name)}</div>
+          <div class="team-member-role">${escHtml(m.role||'—')}</div>
+        </div>
+        <div class="team-member-actions">
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;" title="${m.online?'Online':'Offline'}">
+            <input type="checkbox" ${m.online?'checked':''} onchange="toggleOnline(${m.id},this.checked)" style="accent-color:var(--orange);cursor:pointer;width:14px;height:14px;">
+          </label>
+          <button class="btn-icon-sm" onclick="openEditMember(${m.id})" title="Bewerken">
+            <svg width="12" height="12" fill="none" viewBox="0 0 12 12"><path d="M8 2l2 2-5 5H3V7l5-5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="btn-icon-sm danger" onclick="openDeleteMember(${m.id})" title="Verwijderen">
+            <svg width="12" height="12" fill="none" viewBox="0 0 12 12"><path d="M2 3h8M4.5 3V2h3v1M9.5 3l-.4 6.5a.5.5 0 01-.5.5H3.4a.5.5 0 01-.5-.5L2.5 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>`).join('');
+  }
+
+  function toggleOnline(id, val) {
+    const m = teamMembers.find(m => m.id === id);
+    if (m) { m.online = val; sbToggleMemberOnline(id, val).catch(()=>{}); renderSidebarTeam(); }
+  }
+
+  function renderMemberColorPicker(containerId, activeColor) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    el.innerHTML = AVATAR_COLORS.map((c, i) => {
+      const isActive = JSON.stringify(c) === JSON.stringify(activeColor);
+      return `<div class="avatar-color-swatch" style="background:${c.bg};border:2px solid ${c.text};${isActive?'box-shadow:0 0 0 2px white,0 0 0 4px '+c.text+';':''}" onclick="selectMemberColor('${containerId}',${i})" title="${c.bg}"></div>`;
+    }).join('');
+  }
+
+  function selectMemberColor(containerId, idx) {
+    if (containerId === 'memberColorPicker') {
+      selectedMemberColor = AVATAR_COLORS[idx];
+      renderMemberColorPicker('memberColorPicker', selectedMemberColor);
+    } else {
+      editSelectedColor = AVATAR_COLORS[idx];
+      renderMemberColorPicker('editMemberColorPicker', editSelectedColor);
+    }
+  }
+
+  async function confirmAddMember() {
+    const name = document.getElementById('newMemberName').value.trim();
+    if (!name) { document.getElementById('newMemberName').focus(); return; }
+    const role = document.getElementById('newMemberRole').value.trim();
+    const newMember = { id: null, name, initials:getInitials(name), role, color:selectedMemberColor, online:true };
+    try {
+      const row = await sbAddMember(newMember);
+      newMember.id = row.id;
+    } catch(e) { newMember.id = 'local-' + Date.now(); }
+    teamMembers.push(newMember);
+    document.getElementById('newMemberName').value = '';
+    document.getElementById('newMemberRole').value = '';
+    selectedMemberColor = AVATAR_COLORS[Math.floor(Math.random()*AVATAR_COLORS.length)];
+    renderMemberColorPicker('memberColorPicker', selectedMemberColor);
+    renderTeamPanel();
+    renderSidebarTeam();
+    updateWieSelect();
+    const rows = document.querySelectorAll('#teamPanelBody .team-member-row');
+    const last = rows[rows.length-1];
+    if (last) { last.style.background='#E8F6EF'; setTimeout(()=>last.style.background='',900); }
+  }
+
+  function openEditMember(id) {
+    const m = teamMembers.find(m => m.id === id);
+    if (!m) return;
+    editingMemberId = id;
+    editSelectedColor = m.color;
+    document.getElementById('editMemberName').value = m.name;
+    document.getElementById('editMemberRole').value = m.role || '';
+    renderMemberColorPicker('editMemberColorPicker', editSelectedColor);
+    document.getElementById('editMemberModal').classList.add('open');
+  }
+
+  function closeEditMemberModal() {
+    document.getElementById('editMemberModal').classList.remove('open');
+  }
+
+  async function confirmEditMember() {
+    const m = teamMembers.find(m => m.id === editingMemberId);
+    if (!m) return;
+    const newName = document.getElementById('editMemberName').value.trim();
+    if (!newName) return;
+    m.name = newName; m.role = document.getElementById('editMemberRole').value.trim();
+    m.initials = getInitials(newName); m.color = editSelectedColor;
+    try { await sbUpdateMember(m.id, m); } catch(e) {}
+    closeEditMemberModal(); renderTeamPanel(); renderSidebarTeam(); updateWieSelect();
+  }
+
+  function openDeleteMember(id) {
+    const m = teamMembers.find(m => m.id === id);
+    if (!m) return;
+    pendingDeleteMemberId = id;
+    document.getElementById('deleteMemberText').textContent = 'Weet je zeker dat je "' + m.name + '" wilt verwijderen? Taken blijven bewaard.';
+    document.getElementById('deleteMemberModal').classList.add('open');
+  }
+
+  async function confirmDeleteMember() {
+    const id = pendingDeleteMemberId;
+    teamMembers = teamMembers.filter(m => m.id !== id);
+    try { await sbDeleteMember(id); } catch(e) {}
+    document.getElementById('deleteMemberModal').classList.remove('open');
+    if (activeTeamFilter && !teamMembers.find(m => m.name === activeTeamFilter)) {
+      activeTeamFilter = null;
+      document.querySelectorAll('.task-row').forEach(r => { if (!r.closest('#klaarList')) r.style.display = ''; });
+    }
+    renderTeamPanel(); renderSidebarTeam(); updateWieSelect();
+  }
+
+  function updateWieSelect() {
+    const selects = document.querySelectorAll('#modal select');
+    selects.forEach(select => {
+      if (select.querySelector('option')?.value === undefined) return;
+      const opts = Array.from(select.options).map(o => o.value);
+      const isWieSelect = opts.some(v => teamMembers.map(m=>m.name).includes(v) || ['Suzan','Sam','Rosan','Stijn','Support'].includes(v));
+      if (isWieSelect) {
+        const current = select.value;
+        select.innerHTML = teamMembers.map(m => `<option${m.name===current?' selected':''}>${escHtml(m.name)}</option>`).join('');
+      }
+    });
+  }
+
+  /* ── INIT ── */
+  loadFromSupabase();
+
+  /* ── CATEGORY DATA ── */
+  const CATEGORY_COLORS = [
+    '#378ADD','#EF9F27','#D4537E','#1D9E75','#7F77DD',
+    '#D85A30','#BA7517','#ff7f00','#888780','#B4B2A9',
+    '#3AAFA9','#C0392B','#8E44AD','#27AE60','#E67E22'
+  ];
+
+  let categories = [
+    { name:'Handleidingen', color:'#378ADD' },
+  ];
+
+  let pendingDeleteName = null;
+  let selectedColor = CATEGORY_COLORS[0];
+  let activeDropdown = null;
+
+  function renderSidebarCategories() {
+    const container = document.getElementById('sidebarCategories');
+    container.innerHTML = categories.map(cat => {
+      const count = countTasksInCategory(cat.name);
+      return `
+        <div class="sidebar-cat-item">
+          <button class="sidebar-item" onclick="filterCategory('${escHtml(cat.name)}', this)" data-cat="${escHtml(cat.name)}">
+            <span style="width:8px;height:8px;border-radius:50%;background:${cat.color};flex-shrink:0;display:inline-block;"></span>
+            ${escHtml(cat.name)} <span class="sidebar-count">${count}</span>
+          </button>
+          <button class="cat-menu-btn" onclick="toggleCatDropdown(event,'${escHtml(cat.name)}')" title="Opties">⋯</button>
+          <div class="cat-dropdown" id="dropdown-${escHtml(cat.name).replace(/\s+/g,'_')}">
+            <button class="cat-dropdown-item" onclick="startRename('${escHtml(cat.name)}')">
+              <svg width="13" height="13" fill="none" viewBox="0 0 13 13"><path d="M9 2l2 2-6 6H3V8L9 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>Hernoemen
+            </button>
+            <div class="cat-dropdown-divider"></div>
+            <button class="cat-dropdown-item danger" onclick="openDeleteModal('${escHtml(cat.name)}')">
+              <svg width="13" height="13" fill="none" viewBox="0 0 13 13"><path d="M2 3.5h9M5 3.5V2.5a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v1M10 3.5l-.5 7a.5.5 0 01-.5.5H4a.5.5 0 01-.5-.5L3 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Verwijderen
+            </button>
+          </div>
+        </div>`;
+    }).join('');
+    updateCategorySelect();
+  }
+
+  function countTasksInCategory(name) {
+    const g = document.querySelector(`.category-group[data-category="${CSS.escape(name)}"]`);
+    if (!g) return 0;
+    return [...g.querySelectorAll('.task-row')].filter(r => r.style.display !== 'none').length;
+  }
+
+  function updateSidebarCounts() {
+    // Build a live count map from the DOM
+    const counts = {};
+    document.querySelectorAll('.category-group').forEach(g => {
+      const name = g.dataset.category;
+      counts[name] = [...g.querySelectorAll('.task-row')].filter(r => r.style.display !== 'none').length;
+    });
+
+    // Update each sidebar button's count span
+    document.querySelectorAll('#sidebarCategories .sidebar-item').forEach(btn => {
+      const name = btn.dataset.cat;
+      const countEl = btn.querySelector('.sidebar-count');
+      if (countEl && name !== undefined && counts[name] !== undefined) {
+        countEl.textContent = counts[name];
+      }
+    });
+  }
+
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  function toggleCatDropdown(e, catName) {
+    e.stopPropagation();
+    const id = 'dropdown-' + catName.replace(/\s+/g,'_');
+    const dd = document.getElementById(id);
+    const btn = e.currentTarget;
+    if (activeDropdown && activeDropdown !== dd) { activeDropdown.classList.remove('open'); activeDropdown.previousElementSibling?.classList.remove('open'); }
+    dd.classList.toggle('open'); btn.classList.toggle('open');
+    activeDropdown = dd.classList.contains('open') ? dd : null;
+  }
+
+  document.addEventListener('click', () => {
+    if (activeDropdown) { activeDropdown.previousElementSibling?.classList.remove('open'); activeDropdown.classList.remove('open'); activeDropdown = null; }
+  });
+
+  function startRename(catName) {
+    closeAllDropdowns();
+    const wrapper = document.querySelector(`.sidebar-cat-item [data-cat="${CSS.escape(catName)}"]`)?.closest('.sidebar-cat-item');
+    if (!wrapper) return;
+    wrapper.innerHTML = `<input class="sidebar-rename-input" type="text" value="${escHtml(catName)}" onkeydown="handleRenameKey(event,'${escHtml(catName)}')" onblur="cancelRename('${escHtml(catName)}')" id="rename-input-${escHtml(catName).replace(/\s+/g,'_')}"><button class="btn-primary" style="padding:5px 10px;font-size:12px;margin-left:4px;" onmousedown="event.preventDefault();confirmRename('${escHtml(catName)}')">OK</button>`;
+    const input = wrapper.querySelector('input'); input.focus(); input.select();
+  }
+
+  function handleRenameKey(e, catName) {
+    if (e.key==='Enter') confirmRename(catName);
+    if (e.key==='Escape') cancelRename(catName);
+  }
+
+  async function confirmRename(catName) {
+    const input = document.getElementById('rename-input-'+catName.replace(/\s+/g,'_'));
+    if (!input) return;
+    const newName = input.value.trim();
+    if (!newName || newName===catName) { renderSidebarCategories(); return; }
+    const cat = categories.find(c => c.name===catName);
+    if (cat) { try { await sbUpdateCategory(cat.id, newName, cat.color); } catch(e) {} cat.name = newName; }
+    const group = document.querySelector(`.category-group[data-category="${CSS.escape(catName)}"]`);
+    if (group) { group.dataset.category = newName; const el = group.querySelector('.category-name'); if (el) el.textContent = newName; }
+    renderSidebarCategories();
+  }
+
+  function cancelRename() { setTimeout(() => renderSidebarCategories(), 120); }
+
+  function openDeleteModal(catName) {
+    closeAllDropdowns();
+    pendingDeleteName = catName;
+    document.getElementById('deleteModalText').textContent = `Weet je zeker dat je de categorie "${catName}" wilt verwijderen?`;
+    document.getElementById('deleteModal').classList.add('open');
+  }
+
+  function closeDeleteModal() { document.getElementById('deleteModal').classList.remove('open'); pendingDeleteName = null; }
+
+  async function confirmDeleteCategory() {
+    if (!pendingDeleteName) return;
+    const name = pendingDeleteName;
+    const cat = categories.find(c => c.name === name);
+    categories = categories.filter(c => c.name !== name);
+    if (cat) { try { await sbDeleteCategory(cat.id); } catch(e) {} }
+    const group = document.querySelector(`.category-group[data-category="${CSS.escape(name)}"]`);
+    if (group) {
+      group.style.transition = 'opacity 0.25s';
+      group.style.opacity = '0';
+      setTimeout(() => { group.remove(); renderSidebarCategories(); updateStats(); }, 260);
+    } else { renderSidebarCategories(); updateStats(); }
+    closeDeleteModal();
+  }
+
+  function openAddCategoryModal() {
+    document.getElementById('newCatName').value = '';
+    selectedColor = CATEGORY_COLORS[Math.floor(Math.random()*CATEGORY_COLORS.length)];
+    renderColorPicker();
+    document.getElementById('addCatModal').classList.add('open');
+    setTimeout(() => document.getElementById('newCatName').focus(), 50);
+  }
+
+  function closeAddCategoryModal() { document.getElementById('addCatModal').classList.remove('open'); }
+  function handleAddCatBackdrop(e) { if (e.target===document.getElementById('addCatModal')) closeAddCategoryModal(); }
+
+  function renderColorPicker() {
+    document.getElementById('colorPicker').innerHTML = CATEGORY_COLORS.map(c =>
+      `<div onclick="selectColor('${c}')" style="width:22px;height:22px;border-radius:50%;background:${c};cursor:pointer;box-shadow:${c===selectedColor?'0 0 0 3px white,0 0 0 5px '+c:'none'};transition:box-shadow 0.15s;flex-shrink:0;"></div>`
+    ).join('');
+  }
+
+  function selectColor(color) { selectedColor = color; renderColorPicker(); }
+
+  async function confirmAddCategory() {
+    const name = document.getElementById('newCatName').value.trim();
+    if (!name) { document.getElementById('newCatName').focus(); return; }
+    if (categories.find(c => c.name.toLowerCase()===name.toLowerCase())) {
+      document.getElementById('newCatName').style.borderColor='#C0392B';
+      setTimeout(()=>{ document.getElementById('newCatName').style.borderColor=''; },1500);
+      return;
+    }
+    let catId = 'local-' + Date.now();
+    try { const row = await sbAddCategory(name, selectedColor); catId = row.id; } catch(e) {}
+    categories.push({ id: catId, name, color:selectedColor });
+    const table = document.getElementById('taskTable');
+    const newGroup = document.createElement('div');
+    newGroup.className = 'category-group'; newGroup.dataset.category = name; newGroup.dataset.categoryId = catId;
+    newGroup.innerHTML = `<div class="category-header" onclick="toggleCategory(this)"><div class="category-dot" style="background:${selectedColor};"></div><span class="category-name">${escHtml(name)}</span><span class="category-count">0</span><span class="category-toggle">▾</span></div><div class="category-body"><div style="padding:1.5rem;text-align:center;font-size:12px;color:var(--text-3);">Geen taken in deze categorie.</div></div>`;
+    newGroup.style.opacity='0'; newGroup.style.transform='translateY(8px)';
+    table.appendChild(newGroup);
+    setTimeout(()=>{ newGroup.style.transition='opacity 0.25s,transform 0.25s'; newGroup.style.opacity='1'; newGroup.style.transform='none'; },10);
+    closeAddCategoryModal(); renderSidebarCategories(); updateCategorySelect();
+    setTimeout(()=>newGroup.scrollIntoView({behavior:'smooth',block:'nearest'}),300);
+  }
+
+  function updateCategorySelect() {
+    const select = document.querySelector('#modal .form-select');
+    if (!select) return;
+    const current = select.value;
+    select.innerHTML = categories.map(c => `<option${c.name===current?' selected':''}>${escHtml(c.name)}</option>`).join('');
+  }
+
+  function closeAllDropdowns() {
+    document.querySelectorAll('.cat-dropdown.open').forEach(d=>d.classList.remove('open'));
+    document.querySelectorAll('.cat-menu-btn.open').forEach(b=>b.classList.remove('open'));
+    activeDropdown = null;
+  }
+
+  /* ── CATEGORY INIT (handled by loadFromSupabase) ── */
+
+  /* ── GENERAL ── */
+  function setSidebarActive(el) {
+    document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
+    document.querySelectorAll('.team-filter-item').forEach(i=>i.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function toggleCategory(header) {
+    header.nextElementSibling.classList.toggle('collapsed');
+    header.querySelector('.category-toggle').classList.toggle('collapsed');
+  }
+
+  function toggleKlaarSection(header) {
+    header.nextElementSibling.classList.toggle('collapsed');
+    header.querySelector('.category-toggle').classList.toggle('collapsed');
+  }
+
+  function toggleCheck(el) { el.classList.toggle('done'); }
+
+  function setFilter(btn) {
+    document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function filterCategory(name, btn) {
+    activeTeamFilter = null;
+    hideKlaarSection();
+    setSidebarActive(btn);
+    showTaskTable();
+    document.querySelectorAll('.task-row').forEach(r=>{ if (!r.closest('#klaarList')) r.style.display=''; });
+    document.querySelectorAll('.category-group').forEach(g=>{ g.style.display = g.dataset.category===name ? '' : 'none'; });
+    updateSidebarCounts();
+    updateStats();
+    renderSidebarTeam();
+  }
+
+  function searchTasks(val) {
+    const q = val.toLowerCase();
+    document.querySelectorAll('.task-row').forEach(row => {
+      if (row.closest('#klaarList')) return;
+      row.style.display = (!q || row.innerText.toLowerCase().includes(q)) ? '' : 'none';
+    });
+    if (!q) document.querySelectorAll('.category-group').forEach(g=>g.style.display='');
+    updateSidebarCounts();
+    updateStats();
+  }
+
+  document.querySelectorAll('.sidebar-item').forEach(item => {
+    if (item.textContent.trim().startsWith('Alle taken')) {
+      item.addEventListener('click', () => {
+        activeTeamFilter = null;
+        hideKlaarSection();
+        showTaskTable();
+        document.querySelectorAll('.category-group').forEach(g=>g.style.display='');
+        document.querySelectorAll('.task-row').forEach(r=>{ if (!r.closest('#klaarList')) r.style.display=''; });
+        updateSidebarCounts();
+        updateStats();
+        renderSidebarTeam();
+      });
+    }
+  });
+
+  function showTaskTable() { document.getElementById('taskTable').style.display=''; }
+
+  /* ── KLAAR ── */
+  let klaarItems = [];
+
+  function markKlaar(btn) {
+    const row = btn.closest('.task-row');
+    const now = new Date();
+    klaarItems.push({
+      name: row.querySelector('.task-name')?.innerText||'—',
+      todo: row.querySelector('.task-todo')?.innerText||'',
+      who:  row.querySelector('.task-who')?.innerText||'',
+      when: row.querySelector('.task-when')?.innerText||'',
+      category: row.closest('.category-group')?.dataset.category||'',
+      dateStr: now.toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'}),
+      timeStr: now.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'}),
+      originalRow: row
+    });
+    const taskId = row.dataset.taskId;
+    if (taskId) { sbDeleteTask(taskId).catch(()=>{}); }
+    row.style.transition='opacity 0.3s,transform 0.3s'; row.style.opacity='0'; row.style.transform='translateX(20px)';
+    setTimeout(()=>{ row.style.display='none'; renderKlaarList(); updateKlaarCount(); updateSidebarCounts(); updateStats(); updateTeamCounts(); },300);
+  }
+
+  let klaarViewActive = false;
+
+  function renderKlaarList() {
+    const section = document.getElementById('klaarSection');
+    // Only show section if user is in klaar view
+    if (klaarViewActive) {
+      section.style.display = '';
+    }
+    document.getElementById('klaarList').innerHTML = klaarItems.map((item,idx) => `
+      <div class="task-row" style="opacity:1;transform:none;">
+        <div class="task-name" style="text-decoration:line-through;color:var(--text-3);">${item.name}</div>
+        <div class="task-todo" style="color:var(--text-3);text-decoration:line-through;">${item.todo}</div>
+        <div class="task-who"><span class="assignee-pill">${item.who}</span></div>
+        <div class="task-when"><span class="done-date-badge"><svg width="10" height="10" fill="none" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" stroke="#0F6E56" stroke-width="1.2"/><path d="M3 5l1.5 1.5 2.5-2.5" stroke="#0F6E56" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>${item.dateStr} ${item.timeStr}</span></div>
+        <div class="task-note" style="color:var(--text-3);">${item.category}</div>
+        <div class="task-actions"><button class="btn-restore" onclick="restoreTask(${idx})">↩ Terugzetten</button></div>
+      </div>`).join('');
+  }
+
+  async function restoreTask(idx) {
+    const item = klaarItems[idx];
+    const row = item.originalRow;
+    // Re-create in Supabase
+    const group = row.closest('.category-group');
+    const catId = group?.dataset.categoryId;
+    if (catId) {
+      try {
+        const newRow = await sbAddTask(catId, {
+          name: item.name, todo: item.todo,
+          assignees: [], wanneer: ''
+        });
+        row.dataset.taskId = newRow.id;
+      } catch(e) {}
+    }
+    row.style.display=''; row.style.opacity='0'; row.style.transform='translateX(-20px)';
+    setTimeout(()=>{ row.style.transition='opacity 0.3s,transform 0.3s'; row.style.opacity='1'; row.style.transform='none'; },10);
+    klaarItems.splice(idx,1); renderKlaarList(); updateKlaarCount(); updateSidebarCounts(); updateStats(); updateTeamCounts();
+  }
+
+  function updateKlaarCount() {
+    const n = klaarItems.length;
+    document.getElementById('klaar-count').textContent = n;
+    document.getElementById('klaar-sidebar-count').textContent = n;
+  }
+
+  function showKlaarView(btn) {
+    klaarViewActive = true;
+    setSidebarActive(btn); activeTeamFilter = null;
+    document.querySelectorAll('.category-group').forEach(g=>g.style.display='none');
+    document.getElementById('taskTable').style.display='none';
+    document.getElementById('klaarSection').style.display='';
+    if (!klaarItems.length) {
+      document.getElementById('klaarList').innerHTML=`<div style="padding:2.5rem;text-align:center;color:var(--text-3);"><div style="font-size:32px;margin-bottom:8px;">✓</div><p style="font-size:13px;font-weight:500;">Nog geen taken afgerond</p><p style="font-size:12px;margin-top:4px;">Klik op 'Klaar' bij een taak om deze hier te zetten.</p></div>`;
+    }
+    document.getElementById('klaarSection').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  function hideKlaarSection() {
+    klaarViewActive = false;
+    document.getElementById('klaarSection').style.display = 'none';
+  }
+
+  /* ── STATS ── */
+  function updateStats() {
+    const allRows = [...document.querySelectorAll('.task-row')].filter(r =>
+      !r.closest('#klaarList') && r.style.display !== 'none'
+    );
+    const total = allRows.length;
+    document.getElementById('stat-total').textContent = total;
+    document.getElementById('count-alle-taken').textContent = total;
+
+    const weekRows = allRows.filter(r => {
+      const badge = r.querySelector('.when-badge');
+      return badge && /week/i.test(badge.textContent);
+    });
+    document.getElementById('stat-week').textContent = weekRows.length;
+
+    const workingRows = allRows.filter(r => r.querySelector('.status-badge.status-working'));
+    document.getElementById('stat-working').textContent = workingRows.length;
+
+    // Weeknummer
+    const now = new Date();
+    const jan1 = new Date(now.getFullYear(), 0, 1);
+    const week = Math.ceil(((now - jan1) / 86400000 + jan1.getDay() + 1) / 7);
+    document.getElementById('stat-week-nr').textContent = week;
+    document.getElementById('stat-year').textContent = now.getFullYear();
+    updateTeamCounts();
+  }
+
+  /* ── STATUS LOGIC ── */
+  const STATUS_CONFIG = {
+    open:    { label: 'Open',          cls: 'status-open',    dot: '#B4B2A9' },
+    working: { label: 'Working on it', cls: 'status-working', dot: '#FF9500' },
+    review:  { label: 'In review',     cls: 'status-review',  dot: '#7F77DD' },
+    blocked: { label: 'Geblokkeerd',   cls: 'status-blocked', dot: '#E05252' },
+    done:    { label: 'Klaar',         cls: 'status-done',    dot: '#1D9E75' },
+  };
+
+  let activeStatusBadge = null;
+
+  function openStatusDropdown(e, badge) {
+    e.stopPropagation();
+    const dd = document.getElementById('statusDropdown');
+
+    // Toggle off if clicking same badge
+    if (activeStatusBadge === badge && dd.classList.contains('open')) {
+      dd.classList.remove('open');
+      activeStatusBadge = null;
+      return;
+    }
+
+    activeStatusBadge = badge;
+    dd.classList.add('open');
+
+    // Position dropdown below the badge
+    const rect = badge.getBoundingClientRect();
+    dd.style.top  = (rect.bottom + 4) + 'px';
+    dd.style.left = rect.left + 'px';
+
+    // Ensure it doesn't go off-screen right
+    requestAnimationFrame(() => {
+      const ddRect = dd.getBoundingClientRect();
+      if (ddRect.right > window.innerWidth - 8) {
+        dd.style.left = (window.innerWidth - ddRect.width - 8) + 'px';
+      }
+    });
+  }
+
+  function setStatus(key) {
+    if (!activeStatusBadge) return;
+    const cfg = STATUS_CONFIG[key];
+    activeStatusBadge.className = 'status-badge ' + cfg.cls;
+    activeStatusBadge.innerHTML = `<span class="status-dot"></span>${cfg.label}`;
+    // Save status to Supabase
+    const row = activeStatusBadge.closest('.task-row');
+    const taskId = row?.dataset.taskId;
+    if (taskId) { sbUpdateTask(taskId, { status: key }).catch(()=>{}); }
+    document.getElementById('statusDropdown').classList.remove('open');
+    activeStatusBadge = null;
+    updateStats();
+  }
+
+  // Close dropdown on outside click
+  document.addEventListener('click', (e) => {
+    const dd = document.getElementById('statusDropdown');
+    if (!dd) return;
+    if (!dd.contains(e.target)) {
+      dd.classList.remove('open');
+      activeStatusBadge = null;
+    }
+  });
+
+  /* ── EDIT TASK ── */
+  let editingTaskRow = null;
+
+  function openEditTask(btn) {
+    editingTaskRow = btn.closest('.task-row');
+    const name    = editingTaskRow.querySelector('.task-name')?.innerText || '';
+    const todo    = editingTaskRow.querySelector('.task-todo')?.innerText || '';
+    const wanneer = editingTaskRow.querySelector('.when-badge')?.innerText || '';
+    const currentNames = [...editingTaskRow.querySelectorAll('.task-who .assignee-pill')]
+      .map(p => p.innerText.trim());
+
+    document.getElementById('editTaskName').value    = name;
+    document.getElementById('editTaskTodo').value    = todo;
+    document.getElementById('editTaskWanneer').value = wanneer;
+
+    renderWiePicker('editTaskWiePicker', currentNames);
+
+    document.getElementById('editTaskModal').classList.add('open');
+    setTimeout(() => document.getElementById('editTaskName').focus(), 50);
+  }
+
+  function closeEditTaskModal() {
+    document.getElementById('editTaskModal').classList.remove('open');
+    editingTaskRow = null;
+  }
+
+  function handleEditTaskBackdrop(e) {
+    if (e.target === document.getElementById('editTaskModal')) closeEditTaskModal();
+  }
+
+  async function confirmEditTask() {
+    if (!editingTaskRow) return;
+    const name     = document.getElementById('editTaskName').value.trim();
+    const todo     = document.getElementById('editTaskTodo').value.trim();
+    const wieNames = getSelectedWie('editTaskWiePicker');
+    const wanneer  = document.getElementById('editTaskWanneer').value.trim();
+
+    if (!name) { document.getElementById('editTaskName').focus(); return; }
+
+    editingTaskRow.querySelector('.task-name').textContent = name;
+    editingTaskRow.querySelector('.task-todo').textContent = todo;
+
+    const whenEl = editingTaskRow.querySelector('.task-when');
+    if (whenEl) whenEl.innerHTML = wanneer ? `<span class="when-badge">${escHtml(wanneer)}</span>` : '';
+
+    const whoEl = editingTaskRow.querySelector('.task-who');
+    if (whoEl) whoEl.innerHTML = buildAssigneePill(wieNames);
+
+    const taskId = editingTaskRow.dataset.taskId;
+    if (taskId) {
+      try { await sbUpdateTask(taskId, { name, todo, assignees: wieNames, wanneer }); } catch(e) {}
+    }
+
+    closeEditTaskModal();
+    updateTeamCounts();
+  }
+
+  /* ── WIE MULTI-PICKER ── */
+  function renderWiePicker(containerId, selectedNames = []) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    if (teamMembers.length === 0) {
+      el.innerHTML = '<span style="font-size:12px;color:var(--text-3);">Voeg eerst teamleden toe via "Team beheren".</span>';
+      return;
+    }
+    el.innerHTML = teamMembers.map(m => {
+      const sel = selectedNames.includes(m.name);
+      return `<div class="wie-option${sel ? ' selected' : ''}" onclick="toggleWieOption(this, '${containerId}')" data-name="${escHtml(m.name)}">
+        <div class="team-avatar" style="background:${m.color.bg};color:${m.color.text};">${m.initials}</div>
+        ${escHtml(m.name)}
+      </div>`;
+    }).join('');
+  }
+
+  function toggleWieOption(el, containerId) {
+    el.classList.toggle('selected');
+  }
+
+  function getSelectedWie(containerId) {
+    const el = document.getElementById(containerId);
+    if (!el) return [];
+    return [...el.querySelectorAll('.wie-option.selected')].map(o => o.dataset.name);
+  }
+
+  function buildAssigneePill(names) {
+    if (!names.length) return '<span class="assignee-pill">—</span>';
+    return names.map(name => {
+      const m = teamMembers.find(t => t.name === name);
+      const bg = m ? m.color.bg : '#eee';
+      const tc = m ? m.color.text : '#333';
+      const ini = m ? m.initials : name.slice(0,2).toUpperCase();
+      return `<span class="assignee-pill" style="margin-right:3px;"><span class="avatar-xs" style="background:${bg};color:${tc};">${ini}</span>${escHtml(name)}</span>`;
+    }).join('');
+  }
+  function openModal() {
+    const catSel = document.getElementById('newTaskCategory');
+    catSel.innerHTML = categories.map(c => `<option value="${escHtml(c.name)}">${escHtml(c.name)}</option>`).join('');
+    renderWiePicker('newTaskWiePicker', []);
+    document.getElementById('newTaskName').value = '';
+    document.getElementById('newTaskTodo').value = '';
+    document.getElementById('newTaskWanneer').value = '';
+    document.getElementById('modal').classList.add('open');
+    setTimeout(() => document.getElementById('newTaskName').focus(), 50);
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+  }
+
+  function handleBackdropClick(e) {
+    if (e.target === document.getElementById('modal')) closeModal();
+  }
+
+  async function confirmAddTask() {
+    const name    = document.getElementById('newTaskName').value.trim();
+    const todo    = document.getElementById('newTaskTodo').value.trim();
+    const catName = document.getElementById('newTaskCategory').value;
+    const wieNames = getSelectedWie('newTaskWiePicker');
+    const wanneer = document.getElementById('newTaskWanneer').value.trim();
+
+    if (!name) {
+      document.getElementById('newTaskName').focus();
+      document.getElementById('newTaskName').style.borderColor = '#C0392B';
+      setTimeout(() => document.getElementById('newTaskName').style.borderColor = '', 1500);
+      return;
+    }
+
+    const group = document.querySelector(`.category-group[data-category="${CSS.escape(catName)}"]`);
+    if (!group) return;
+
+    // Save to Supabase
+    let taskId = 'local-' + Date.now();
+    const catId = group.dataset.categoryId;
+    try {
+      const row = await sbAddTask(catId, { name, todo, assignees: wieNames, wanneer });
+      taskId = row.id;
+    } catch(e) {}
+
+    const whenBadge = wanneer ? `<span class="when-badge">${escHtml(wanneer)}</span>` : '';
+    const newRow = document.createElement('div');
+    newRow.className = 'task-row';
+    newRow.dataset.taskId = taskId;
+    newRow.innerHTML = `
+      <div class="task-edit"><button class="btn-edit-task" onclick="openEditTask(this)" title="Bewerken"><svg width="12" height="12" fill="none" viewBox="0 0 12 12"><path d="M8 2l2 2-5 5H3V7l5-5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button></div>
+      <div class="task-name">${escHtml(name)}</div>
+      <div class="task-todo">${escHtml(todo)}</div>
+      <div class="task-who">${buildAssigneePill(wieNames)}</div>
+      <div class="task-status"><button class="status-badge status-open" onclick="openStatusDropdown(event, this)"><span class="status-dot"></span>Open</button></div>
+      <div class="task-when">${whenBadge}</div>
+      <div class="task-note"></div>
+      <div class="task-actions"><button class="btn-klaar" onclick="markKlaar(this)">✓ Klaar</button></div>
+    `;
+
+    const body = group.querySelector('.category-body');
+    const placeholder = body.querySelector('div[style*="text-align:center"]');
+    if (placeholder) placeholder.remove();
+
+    newRow.style.opacity = '0';
+    newRow.style.transform = 'translateX(-10px)';
+    body.appendChild(newRow);
+    requestAnimationFrame(() => {
+      newRow.style.transition = 'opacity 0.25s, transform 0.25s';
+      newRow.style.opacity = '1';
+      newRow.style.transform = 'none';
+    });
+
+    const countEl = group.querySelector('.category-count');
+    if (countEl) countEl.textContent = body.querySelectorAll('.task-row').length;
+    group.style.display = '';
+
+    closeModal();
+    updateSidebarCounts();
+    updateStats();
+    updateTeamCounts();
+    setTimeout(() => newRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300);
+  }
+</script>
+
+<!-- STATUS DROPDOWN -->
+<div class="status-dropdown" id="statusDropdown">
+  <button class="status-option" onclick="setStatus('open')">
+    <span class="status-dot" style="background:#B4B2A9;"></span> Open
+  </button>
+  <button class="status-option" onclick="setStatus('working')">
+    <span class="status-dot" style="background:#FF9500;"></span> Working on it
+  </button>
+  <button class="status-option" onclick="setStatus('review')">
+    <span class="status-dot" style="background:#7F77DD;"></span> In review
+  </button>
+  <button class="status-option" onclick="setStatus('blocked')">
+    <span class="status-dot" style="background:#E05252;"></span> Geblokkeerd
+  </button>
+</div>
+
+<!-- EDIT TASK MODAL -->
+<div class="modal-backdrop" id="editTaskModal" onclick="handleEditTaskBackdrop(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title">Taak bewerken</h2>
+      <button class="modal-close" onclick="closeEditTaskModal()">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Taaknaam</label>
+      <input class="form-input" id="editTaskName" type="text" onkeydown="if(event.key==='Enter') confirmEditTask()">
+    </div>
+    <div class="form-group">
+      <label class="form-label">To do / omschrijving</label>
+      <textarea class="form-textarea" id="editTaskTodo"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Wie</label>
+        <div class="wie-picker" id="editTaskWiePicker"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Wanneer</label>
+        <input class="form-input" id="editTaskWanneer" type="text" placeholder="Bijv. Week 17, Doorlopend">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeEditTaskModal()">Annuleren</button>
+      <button class="btn-primary" onclick="confirmEditTask()">Opslaan</button>
+    </div>
+  </div>
+</div>
+
+<div id="loadingOverlay" style="display:none;position:fixed;inset:0;background:rgba(247,246,242,0.92);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+  <div style="width:36px;height:36px;border:3px solid #f0ece0;border-top-color:#ff7f00;border-radius:50%;animation:spin 0.7s linear infinite;"></div>
+  <p style="font-size:13px;font-weight:600;color:#9A9A94;">Data laden...</p>
+</div>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+
+</body>
+</html>
